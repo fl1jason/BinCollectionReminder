@@ -18,14 +18,14 @@ import (
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
+		// Load in Environment Variables
+		godotenv.Load("local.env")
+
 		// Lookup the Page on Warwick DC for CV357TT
 		resp, err := http.Get("https://estates7.warwickdc.gov.uk/PropertyPortal/Property/Recycling/10003790863")
 		if err != nil {
 			log.Fatalln(err)
 		}
-
-		// Load in Environment Variables
-		godotenv.Load("local.env")
 
 		// Read the response body
 		page, err := ioutil.ReadAll(resp.Body)
@@ -51,7 +51,6 @@ func main() {
 
 				// We have a date, find what type of collection it is
 				collection := getCollectionForDate(sb, dateString)
-				collection = cleanString(collection)
 
 				// Send details of which collection was found
 				sendEmail(collection)
@@ -62,6 +61,9 @@ func main() {
 	})
 
 	port := os.Getenv("PORT")
+	if port == "" {
+		port = "80"
+	}
 	http.ListenAndServe(":"+port, nil)
 }
 
@@ -77,7 +79,7 @@ func getCollectionForDate(searchText string, date string) string {
 	openingTagPos += len("<strong>")
 
 	res := searchText[openingTagPos:closingTagPos]
-	return (res)
+	return (cleanString(res))
 }
 
 // Cleans line breaks and carriage returns etc
