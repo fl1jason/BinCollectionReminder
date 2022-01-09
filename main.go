@@ -105,7 +105,7 @@ func sendEmail(collectionType string) {
 	for _, recipient := range recipients {
 		fmt.Println(recipient)
 
-		from := mail.NewEmail("Jason", "samjas73@gmail.com")
+		from := mail.NewEmail("Which Bins this week?", "samjas73@gmail.com")
 		subject := "It's " + collectionType + " this week"
 		to := mail.NewEmail("Jason", recipient)
 		plainTextContent := subject
