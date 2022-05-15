@@ -53,7 +53,7 @@ func main() {
 				collection := getCollectionForDate(sb, dateString)
 
 				// Send details of which collection was found
-				sendEmail(collection)
+				//sendEmail(collection)
 
 				fmt.Fprintf(w, "We've found a collection date for %s, it's %s this week\n", dateString, collection)
 			}
